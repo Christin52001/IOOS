@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow-lg border-0" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <h1 class="h4 text-center mb-4 text-primary fw-bold">Shorten a URL</h1>
+            
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.long_url.label_tag }} 
+                    {{ form.long_url }}
+                </div>
+                <div class="mb-3">
+                    {{ form.custom_code.label_tag }} 
+                    {{ form.custom_code }}
+                </div>
+                <div class="mb-3">
+                    {{ form.days_valid.label_tag }} 
+                    {{ form.days_valid }}
+                </div>
+                <button class="btn btn-primary w-100">Create Short Link</button>
+            </form>
+
+            {% if recent %}
+            <h2 class="h5 text-center text-secondary mb-3">Recent Links</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered text-center align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Short</th>
+                            <th>Destination</th>
+                            <th>Clicks</th>
+                            <th>Expires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for l in recent %}
+                        <tr>
+                            <td><a href="/{{ l.code }}" target="_blank" class="text-decoration-none fw-semibold">{{ request.get_host }}/{{ l.code }}</a></td>
+                            <td class="text-truncate" style="max-width: 200px;">{{ l.long_url }}</td>
+                            <td>{{ l.clicks }}</td>
+                            <td>{% if l.expires_at %}{{ l.expires_at.date }}{% else %}Never{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
