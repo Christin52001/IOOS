@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card shadow-lg border-0 p-4" style="max-width: 600px; width: 100%;">
+        <h1 class="h4 text-primary fw-bold text-center mb-4">🔍 Link Details</h1>
+
+        <div class="mb-3">
+            <strong>Short URL:</strong>
+            <a href="/{{ link.code }}" target="_blank" class="text-decoration-none text-primary fw-semibold">
+                {{ request.get_host }}/{{ link.code }}
+            </a>
+        </div>
+
+        <div class="mb-3">
+            <strong>Long URL:</strong>
+            <a href="{{ link.long_url }}" target="_blank" class="text-decoration-none text-success fw-semibold">
+                {{ link.long_url }}
+            </a>
+        </div>
+
+        <div class="mb-3"><strong>Clicks:</strong> {{ link.clicks }}</div>
+        <div class="mb-3"><strong>Created:</strong> {{ link.created_at }}</div>
+        <div class="mb-3"><strong>Expires:</strong> {% if link.expires_at %}{{ link.expires_at.date }}{% else %}Never{% endif %}</div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="/" class="btn btn-outline-secondary px-4">⬅ Back</a>
+            <a href="{{ link.long_url }}" target="_blank" class="btn btn-primary px-4">🌐 Open Link</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
